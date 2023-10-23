@@ -1,36 +1,30 @@
-<?php
-// Функция для проверки, что значение - целое число
-function isInteger($value) {
-    return is_numeric($value) && ctype_digit(str_replace(',', '.', $value));
-}
-
-// Ввод чисел
-$number1 = readNumber("Введите первое число: ");
-$number2 = readNumber("Введите второе число: ");
-
-// Проверка деления на ноль
-if ($number2 == 0) {
-    fwrite(STDERR, "Делить на 0 нельзя\n");
-} else {
-    // Выполнение деления и вывод результата
-    $result = $number1 / $number2;
-    echo "Результат деления: $result\n";
-}
-
-// Функция для проверки и ввода числа
-function readNumber($prompt) {
-    do {
-        echo $prompt;
-        $input = trim(fgets(STDIN));
-        $input = str_replace(',', '.', $input);
-
-        if (!is_numeric($input)) {
-            fwrite(STDERR, "Введите, пожалуйста, число\n");
-        } elseif (!isInteger($input)) {
-            fwrite(STDERR, "Введите, пожалуйста, целое число\n");
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Результат деления</title>
+</head>
+<body>
+    <h1>Результат деления</h1>
+    <?php
+     if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $number1 = $_POST["number1"];
+        $number2 = $_POST["number2"];
+    
+        if (is_numeric($number1) && is_numeric($number2) && is_int((int) $number1) && is_int((int) $number2)) {
+            $number1 = (int) $number1;
+            $number2 = (int) $number2;
+    
+            if ($number2 == 0) {
+                echo "Делить на 0 нельзя.";
+            } else {
+                $result = $number1 / $number2;
+                echo "Результат деления: $result";
+            }
         } else {
-            return (float) $input;
+            echo "Введите, пожалуйста, целые числа.";
         }
-    } while (true);
-}
-?>
+    }
+    ?>
+</body>
+</html>
+
